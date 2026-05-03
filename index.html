@@ -158,16 +158,26 @@
         }
     }
 
+    function getDecodedUrl() {
+        const rawUrl = window.location.href;
+        try {
+            const a = document.createElement('a');
+            a.href = rawUrl;
+            let decodedHostname = a.hostname;
+            const protocol = a.protocol;
+            const pathname = a.pathname;
+            const search = a.search;
+            const hash = a.hash;
+            return protocol + '//' + decodedHostname + pathname + search + hash;
+        } catch (e) {
+            return rawUrl;
+        }
+    }
+
     function displayPageUrl() {
         const urlElement = document.getElementById('page-url');
         if (urlElement) {
-            let rawUrl = window.location.href;
-            try {
-                rawUrl = decodeURIComponent(rawUrl);
-            } catch(e) {
-                console.warn("URL解码失败，保留原始链接");
-            }
-            urlElement.textContent = rawUrl;
+            urlElement.textContent = getDecodedUrl();
         }
     }
 
