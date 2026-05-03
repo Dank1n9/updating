@@ -161,7 +161,13 @@
     function displayPageUrl() {
         const urlElement = document.getElementById('page-url');
         if (urlElement) {
-            urlElement.textContent = window.location.href;
+            let rawUrl = window.location.href;
+            try {
+                rawUrl = decodeURIComponent(rawUrl);
+            } catch(e) {
+                console.warn("URL解码失败，保留原始链接");
+            }
+            urlElement.textContent = rawUrl;
         }
     }
 
